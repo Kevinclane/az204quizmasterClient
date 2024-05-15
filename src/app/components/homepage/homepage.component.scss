@@ -1,0 +1,75 @@
+@import "../../../styles.scss";
+
+.header {
+    background-color: $dark-green;
+    height: 8dvh;
+    text-align: center;
+    color: $light-gray;
+    font-size: 2.5rem;
+    @extend .justify-between;
+
+    div {
+        margin: 1rem;
+    }
+}
+
+.container {
+    color: $light-gray;
+    padding: 0 5dvw;
+    min-height: 50dvh;
+    @extend .justify-center;
+    flex-direction: column;
+
+    .description {
+        font-size: 1.5rem;
+        margin-top: 3dvh;
+    }
+
+    .split-container {
+        @extend .justify-between;
+        width: 100%;
+        margin-top: 3rem;
+
+        .exam-breakdown {
+            width: 50%;
+
+            ul li {
+                margin: .5rem 0;
+            }
+        }
+
+        .quiz-selection {
+            width: 50%;
+
+            div {
+                padding: .5rem;
+
+                input {
+                    cursor: pointer;
+                    font-size: 2rem;
+
+                    &:hover {
+                        background-color: $dark-green;
+                        border-radius: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+
+    .button-container {
+        margin-top: 1rem;
+
+        a {
+            cursor: pointer;
+            color: $light-gray;
+            text-decoration: none;
+            background-color: $green;
+            padding: .5rem;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        }
+    }
+
+}

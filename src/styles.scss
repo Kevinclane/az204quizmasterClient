@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'material-icons/iconfont/material-icons.css';
+
+$dark-blue: #232D3F;
+$dark-green: #005B41;
+$green: #008170;
+
+$light-gray: #f8f9fa;
+$gray: #6c757d;
+$dark-gray: #495057;
+$dark: #0F0F0F;
+
+body {
+    margin: 0;
+    background-color: $dark;
+}
+
+.justify-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.justify-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
