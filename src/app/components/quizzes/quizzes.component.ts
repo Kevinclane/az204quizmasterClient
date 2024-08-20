@@ -1,34 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { QuizStateService } from '../../services/states/quizstate.service';
 import { ApiService } from '../../services/api.service';
 import { CookieService } from '../../services/cookie.service';
 import { QuizQuestionResponse } from '../../models/quiz-question-response.model';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../../header/header.component";
+import { AnswerSubmissionRequest } from '../../models/answer-submission-request.model';
+import { MultipleChoiceSingleDisplayComponent } from "../multiple-choice-single-display/multiple-choice-single-display.component";
 
 @Component({
   template: `
     <app-header title="X/X"></app-header>
     <div class="container">
-      <div class="question-container">
-        <div class="question" [innerHTML]="activeQuestion?.question"></div>
-        <div class="options">
-          <div class="option" *ngFor="let option of activeQuestion?.options">
-            <input type="radio" id="{{option.id}}" name="option" value="{{option.leftDisplay}}">
-            <label for="{{option.id}}">{{option.leftDisplay}}</label>
-          </div>
-        </div>
+      <div class="question-container" *ngIf="activeQuestion">
+        <app-multiple-choice-single-display
+          *ngIf="activeQuestion.questionType === 0"
+          [activeQuestion]="activeQuestion"
+          #multipleChoiceSingleDisplay
+        ></app-multiple-choice-single-display>
+        <div class="button-container">
+          <button class="button-primary" (click)="submitAndGetNextQuestion()">Next</button>
+        <div>
       </div>
     </div>
   `,
   selector: 'app-quizzes',
   standalone: true,
   styleUrl: './quizzes.component.scss',
-  imports: [CommonModule, HeaderComponent]
+  imports: [CommonModule, HeaderComponent, MultipleChoiceSingleDisplayComponent]
 })
 export class QuizzesComponent {
-  quizId?: number;
+  quizId!: number;
   activeQuestion?: QuizQuestionResponse;
+  @ViewChild('multipleChoiceSingleDisplay') multipleChoiceSingleDisplay!: MultipleChoiceSingleDisplayComponent;
 
   constructor(
     private _quizStateService: QuizStateService,
@@ -38,7 +42,7 @@ export class QuizzesComponent {
 
   ngOnInit() {
     this.syncQuizCookie();
-    this.getNextQuestion();
+    this.submitAndGetNextQuestion();
   }
 
   private syncQuizCookie() {
@@ -58,8 +62,24 @@ export class QuizzesComponent {
     }
   }
 
-  private getNextQuestion() {
-    this._apiService.get(`/quiz/nextQuestion/${this.quizId}`)
+  submitAndGetNextQuestion() {
+    let answers: number[] = [];
+
+    switch (this.activeQuestion?.questionType) {
+      case 0:
+        answers = this.multipleChoiceSingleDisplay.getAnswers();
+        break;
+      case 1:
+        break;
+    }
+
+    let request: AnswerSubmissionRequest = {
+      quizId: this.quizId,
+      aqAId: this.activeQuestion?.aqAid,
+      optionIds: answers
+    };
+
+    this._apiService.post(`/quiz/submitOrNext`, request)
       .subscribe((response) => {
         if (response) {
           this.activeQuestion = response as QuizQuestionResponse;
@@ -69,6 +89,5 @@ export class QuizzesComponent {
         }
       });
   }
-
 
 }

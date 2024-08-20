@@ -1,11 +1,14 @@
 import { QuizOption } from "./quiz-option.model";
 
 export interface QuizQuestionResponse {
+    quizId: number,
+    qaId: number,
+    aqAid: number,
     question: string,
     questionType: number,
-    image: string,
     category: number,
     options: QuizOption[],
-    links: string[]
+    links: string[],
+    image: string,
 }
 

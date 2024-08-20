@@ -2,30 +2,15 @@
 
 .container {
     @extend .justify-center;
+    flex-direction: column;
     color: $light-gray;
 
     .question-container {
         margin-top: 3rem;
 
-        .question {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .options {
-            .option {
-                display: flex;
-                align-items: center;
-                padding: .5rem;
-                background-color: $dark-gray;
-                border: 1px solid black;
-                margin-top: .5rem;
-                font-size: 1.25rem;
-            }
-
-            input {
-                margin-right: 1rem;
-            }
+        .button-container {
+            margin-top: 1rem;
+            text-align: right;
         }
     }
 
