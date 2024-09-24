@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { QuizStateService } from '../../services/states/quizstate.service';
 import { HeaderComponent } from "../../header/header.component";
+import { CookieService } from '../../services/cookie.service';
 
 @Component({
   template: `
@@ -58,7 +59,7 @@ import { HeaderComponent } from "../../header/header.component";
               </label>Connect to and consume Azure services and third-party services
             </div>
             <div class="button-container">
-              <a routerLink="/quizzes">Start a Quiz</a>
+              <button class="button-primary" [class.disabled]="disabled" [disabled]="disabled" (click)="startQuiz()">Start Quiz</button>
             </div>
           </div>
         </div>
@@ -77,8 +78,12 @@ export class HomepageComponent {
   monitor: boolean;
   thirdParty: boolean;
 
+  disabled: boolean = false;
+
   constructor(
-    private _quizStateService: QuizStateService
+    private _quizStateService: QuizStateService,
+    private _cookieService: CookieService,
+    private router: Router
   ) {
     this.compute = this._quizStateService.getCompute();
     this.storage = this._quizStateService.getStorage();
@@ -92,28 +97,34 @@ export class HomepageComponent {
       case 'compute':
         this._quizStateService.setCompute(event.target.checked);
         this.compute = this._quizStateService.getCompute();
-        console.log('Compute selection updated:', this.compute);
         break;
       case 'storage':
         this._quizStateService.setStorage(event.target.checked);
         this.storage = this._quizStateService.getStorage();
-        console.log('Storage selection updated:', this.storage);
         break;
       case 'security':
         this._quizStateService.setSecurity(event.target.checked);
         this.security = this._quizStateService.getSecurity();
-        console.log('Security selection updated:', this.security);
         break;
       case 'monitor':
         this._quizStateService.setMonitor(event.target.checked);
         this.monitor = this._quizStateService.getMonitor();
-        console.log('Monitor selection updated:', this.monitor);
         break;
       case 'thirdParty':
         this._quizStateService.setThirdParty(event.target.checked);
         this.thirdParty = this._quizStateService.getThirdParty();
-        console.log('Third Party selection updated:', this.thirdParty);
         break;
     }
+
+    if (!this.compute && !this.storage && !this.security && !this.monitor && !this.thirdParty) {
+      this.disabled = true;
+    } else {
+      this.disabled = false;
+    }
+  }
+
+  startQuiz() {
+    this._cookieService.deleteCookie('quizId');
+    this.router.navigate(['/quizzes']);
   }
 }

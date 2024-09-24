@@ -7,7 +7,7 @@ import { QuizRequest } from "../../models/quiz-request.model";
 
 export class QuizStateService {
 
-    private _quizId: string = '';
+    private _quizId: number = 0;
     private _compute: boolean = true;
     private _storage: boolean = true;
     private _security: boolean = true;
@@ -20,7 +20,7 @@ export class QuizStateService {
         return this._quizId;
     }
 
-    public setQuizId(value: string) {
+    public setQuizId(value: number) {
         this._quizId = value;
     }
 

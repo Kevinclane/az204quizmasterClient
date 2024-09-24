@@ -37,9 +37,12 @@ $dark-blue: #232D3F;
 $dark-green: #005B41;
 $green: #008170;
 
+$green-correct: rgba(41, 168, 98, 0.5);
+$red-incorrect: #a62c2b;
+
 $light-gray: #f8f9fa;
 $gray: #6c757d;
-$dark-gray: #495057;
+$dark-gray: #272727;
 $dark: #0F0F0F;
 
 body {
@@ -143,6 +146,12 @@ input:checked+.slider:before {
     border-radius: 0.25rem;
 }
 
+
+.disabled {
+    cursor: not-allowed;
+    background-color: $dark-gray;
+    color: $light-gray;
+}
 
 html,
 body {

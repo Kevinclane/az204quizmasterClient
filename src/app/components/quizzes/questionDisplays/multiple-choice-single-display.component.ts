@@ -1,8 +1,7 @@
 import { Component, Input } from "@angular/core";
-import { QuizQuestionResponse } from "../../models/quiz-question-response.model";
+import { QuizQuestionResponse } from "../../../models/quiz-question-response.model";
 import { CommonModule } from "@angular/common";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { QuizOption } from "../../models/quiz-option.model";
 
 @Component({
     template: `

@@ -29,4 +29,8 @@ export class CookieService {
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 
+    public deleteCookie(cname: string) {
+        document.cookie = cname + '=; Max-Age=-99999999;';
+    }
+
 }
