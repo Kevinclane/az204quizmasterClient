@@ -5,24 +5,17 @@ import { CommonModule } from "@angular/common";
 
 @Component({
     template: `
-        <div class="container" (click)="toggleExpand()">
-            <div *ngIf="expanded">
-                exp
+        <div class="container">
+             <div *ngIf="expanded">
+                <div *ngFor="let question of questions" class="question-container">
+                    <div [ngClass]="question.displayColor">
+                        {{question.leftDisplay}}
+                    </div>
+                </div>
             </div>
-            <div *ngIf="!expanded">
-                col
+            <div class="material-icons button-toggle"  (click)="toggleExpand()">
+                {{expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
             </div>
-            <div *ngIf="expanded; then expanded else collapsed"></div>
-            <ng-template class="expanded" #expanded>
-                <span class="material-icons button-toggle">
-                    keyboard_arrow_up
-                </span>
-            </ng-template>
-            <ng-template class="collapsed" #collapsed>
-                <span class="material-icons button-toggle">
-                    keyboard_arrow_down
-                </span>
-            </ng-template>
         </div>
     `,
     selector: 'app-quiz-results-expanded',
@@ -34,12 +27,38 @@ import { CommonModule } from "@angular/common";
 export class QuizResultsExpandedComponent {
     @Input() activeQA!: ActiveQAResult;
     expanded: boolean = false;
+    questions: {
+        id: number,
+        leftDisplay: string,
+        rightDisplay: string,
+        isCorrect?: boolean,
+        displayColor: string
+    }[] = [];
 
     toggleExpand() {
         this.expanded = !this.expanded;
     }
 
     ngOnInit() {
-        console.log(this.expanded)
+        for (let i = 0; i < this.activeQA.qa.options.length; i++) {
+            let option = this.activeQA.qa.options[i];
+
+            const question = {
+                id: this.activeQA.qa.options[i].id,
+                leftDisplay: this.activeQA.qa.options[i].leftDisplay,
+                rightDisplay: this.activeQA.qa.options[i].rightDisplay,
+                isCorrect: this.activeQA.qa.options[i].isCorrect,
+                displayColor: 'none'
+            }
+
+            let userSelectedOption = this.activeQA.submittedAnswers.includes(option.id);
+            if (question.isCorrect) {
+                question.displayColor = 'green';
+            } else if (!question.isCorrect && userSelectedOption) {
+                question.displayColor = 'red';
+            }
+
+            this.questions.push(question);
+        }
     }
 }
