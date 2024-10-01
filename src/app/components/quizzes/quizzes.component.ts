@@ -18,6 +18,7 @@ import { MultipleChoiceMultipleDisplayComponent } from "./questionDisplays/multi
         <app-multiple-choice-single-display
           *ngIf="activeQuestion.questionType === 0"
           [activeQuestion]="activeQuestion"
+          (emitIsDisabled)="setIsDisabled($event)"
           #multipleChoiceSingleDisplay
         ></app-multiple-choice-single-display>
         <app-multiple-choice-multiple-display
@@ -115,7 +116,9 @@ export class QuizzesComponent {
             this.buttonText = 'Finish';
             this.buttonFunction = this.finish;
           }
-          console.log('Question:', this.activeQuestion)
+          this.setIsDisabled(true);
+          console.log(this.activeQuestion);
+
         } else {
           console.error('Failed to get question');
         }

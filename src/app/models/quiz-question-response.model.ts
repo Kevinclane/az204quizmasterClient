@@ -7,10 +7,10 @@ export interface QuizQuestionResponse {
     totalQuestionCount: number,
     finishedQuestionCount: number,
     question: string,
+    image: string,
     questionType: number,
     category: number,
     options: QuizOption[],
-    links: string[],
-    image: string
+    links: string[]
 }
 

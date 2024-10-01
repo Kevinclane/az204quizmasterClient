@@ -6,13 +6,20 @@ import { CommonModule } from "@angular/common";
 @Component({
     template: `
         <div class="container">
-             <div *ngIf="expanded">
-                <div *ngFor="let question of questions" class="question-container">
-                    <div [ngClass]="question.displayColor">
-                        {{question.leftDisplay}}
+             <div *ngIf="expanded; else collapsed">
+                <div *ngFor="let option of expandedOptions" class="option-container">
+                    <div [ngClass]="option.displayColor">
+                        {{option.leftDisplay}}
                     </div>
                 </div>
             </div>
+            <ng-template #collapsed>
+                <div class="option-container">
+                    <div *ngFor="let option of collapsedOptions" [ngClass]="option.displayColor">
+                        {{option.leftDisplay}}
+                    </div>
+                </div>
+            </ng-template>
             <div class="material-icons button-toggle"  (click)="toggleExpand()">
                 {{expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
             </div>
@@ -27,7 +34,15 @@ import { CommonModule } from "@angular/common";
 export class QuizResultsExpandedComponent {
     @Input() activeQA!: ActiveQAResult;
     expanded: boolean = false;
-    questions: {
+    expandedOptions: {
+        id: number,
+        leftDisplay: string,
+        rightDisplay: string,
+        isCorrect?: boolean,
+        displayColor: string
+    }[] = [];
+
+    collapsedOptions: {
         id: number,
         leftDisplay: string,
         rightDisplay: string,
@@ -41,9 +56,7 @@ export class QuizResultsExpandedComponent {
 
     ngOnInit() {
         for (let i = 0; i < this.activeQA.qa.options.length; i++) {
-            let option = this.activeQA.qa.options[i];
-
-            const question = {
+            const option = {
                 id: this.activeQA.qa.options[i].id,
                 leftDisplay: this.activeQA.qa.options[i].leftDisplay,
                 rightDisplay: this.activeQA.qa.options[i].rightDisplay,
@@ -52,13 +65,17 @@ export class QuizResultsExpandedComponent {
             }
 
             let userSelectedOption = this.activeQA.submittedAnswers.includes(option.id);
-            if (question.isCorrect) {
-                question.displayColor = 'green';
-            } else if (!question.isCorrect && userSelectedOption) {
-                question.displayColor = 'red';
+            if (option.isCorrect) {
+                option.displayColor = 'green';
+            } else if (!option.isCorrect && userSelectedOption) {
+                option.displayColor = 'red';
             }
 
-            this.questions.push(question);
+            if (userSelectedOption) {
+                this.collapsedOptions.push(option);
+            }
+
+            this.expandedOptions.push(option);
         }
     }
 }

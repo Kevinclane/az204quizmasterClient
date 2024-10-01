@@ -6,6 +6,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
 @Component({
     template: `
         <div class="question" [innerHTML]="activeQuestion.question"></div>
+        <img *ngIf="activeQuestion.image" src={{activeQuestion.image}} alt="error loading image">
         <div class="options">
             <div class="option" *ngFor="let option of activeQuestion?.options">
                 <input 

@@ -11,7 +11,7 @@ import { QuizResultsExpandedComponent } from "./quiz-results-expanded.compontent
 
 @Component({
     template: `
-        <app-header title="Results"></app-header>
+        <app-header [title]="percent"></app-header>
         <div class="container">
             <div 
                 *ngFor="let activeQA of results?.activeQAs"
@@ -36,6 +36,7 @@ import { QuizResultsExpandedComponent } from "./quiz-results-expanded.compontent
 
 export class QuizResultsComponent {
     results?: QuizResults;
+    percent: string = '';
 
     constructor(
         private router: Router,
@@ -47,6 +48,7 @@ export class QuizResultsComponent {
         this._apiService.get('/quiz/results/' + this.route.snapshot.paramMap.get('quizId'))
             .subscribe((response) => {
                 this.results = this.convertResponse(response);
+                this.calculatePercent();
             });
     }
 
@@ -98,10 +100,6 @@ export class QuizResultsComponent {
         return results;
     }
 
-    convertQA() {
-
-    }
-
     checkIsCorrect(activeQA: ActiveQAResult): boolean {
         let correctAnswers = activeQA.qa.options.filter(option => option.isCorrect);
         for (let i = 0; i < activeQA.submittedAnswers.length; i++) {
@@ -113,4 +111,16 @@ export class QuizResultsComponent {
         return true;
     }
 
+    calculatePercent() {
+        let correctCount = 0;
+        if (!this.results) {
+            return;
+        }
+        for (let i = 0; i < this.results.activeQAs.length; i++) {
+            if (this.checkIsCorrect(this.results.activeQAs[i])) {
+                correctCount++;
+            }
+        }
+        this.percent = Math.ceil((correctCount / this.results.activeQAs.length) * 100).toString() + '%';
+    }
 }

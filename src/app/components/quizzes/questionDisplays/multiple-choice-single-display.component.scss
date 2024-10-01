@@ -14,9 +14,16 @@
         border: 1px solid black;
         margin-top: .5rem;
         font-size: 1.25rem;
+
+        input {
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+
+        label {
+            width: 100%;
+            cursor: pointer;
+        }
     }
 
-    input {
-        margin-right: 1rem;
-    }
 }
