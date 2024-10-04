@@ -6,15 +6,13 @@ import { CommonModule } from "@angular/common";
 @Component({
     template: `
         <div class="container">
-             <div *ngIf="expanded; else collapsed">
-                <div *ngFor="let option of expandedOptions" class="option-container">
-                    <div [ngClass]="option.displayColor">
-                        {{option.leftDisplay}}
-                    </div>
+             <div *ngIf="expanded; else collapsed" class="option-container">
+                <div *ngFor="let option of expandedOptions" [ngClass]="option.displayColor">
+                    {{option.leftDisplay}}
                 </div>
             </div>
             <ng-template #collapsed>
-                <div class="option-container">
+                <div *ngIf="!expanded" class="option-container">
                     <div *ngFor="let option of collapsedOptions" [ngClass]="option.displayColor">
                         {{option.leftDisplay}}
                     </div>

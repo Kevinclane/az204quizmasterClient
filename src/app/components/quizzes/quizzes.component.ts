@@ -5,14 +5,13 @@ import { ApiService } from '../../services/api.service';
 import { CookieService } from '../../services/cookie.service';
 import { QuizQuestionResponse } from '../../models/quiz-question-response.model';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from "../../header/header.component";
 import { AnswerSubmissionRequest } from '../../models/answer-submission-request.model';
 import { MultipleChoiceSingleDisplayComponent } from "./questionDisplays/multiple-choice-single-display.component";
 import { MultipleChoiceMultipleDisplayComponent } from "./questionDisplays/multiple-choice-multiple-display.component";
+import { HeaderStateService } from '../../services/states/headerstate.service';
 
 @Component({
   template: `
-    <app-header [title]="questionCounter"></app-header>
     <div class="container">
       <div class="question-container" *ngIf="activeQuestion">
         <app-multiple-choice-single-display
@@ -41,7 +40,7 @@ import { MultipleChoiceMultipleDisplayComponent } from "./questionDisplays/multi
   selector: 'app-quizzes',
   standalone: true,
   styleUrl: './quizzes.component.scss',
-  imports: [CommonModule, HeaderComponent, MultipleChoiceSingleDisplayComponent, MultipleChoiceMultipleDisplayComponent]
+  imports: [CommonModule, MultipleChoiceSingleDisplayComponent, MultipleChoiceMultipleDisplayComponent]
 })
 export class QuizzesComponent {
   quizId!: number;
@@ -54,12 +53,12 @@ export class QuizzesComponent {
   @ViewChild('multipleChoiceSingleDisplay') multipleChoiceSingleDisplay!: MultipleChoiceSingleDisplayComponent;
   @ViewChild('multipleChoiceMultipleDisplay') multipleChoiceMultipleDisplay!: MultipleChoiceMultipleDisplayComponent;
 
-
   constructor(
     private router: Router,
     private _quizStateService: QuizStateService,
     private _apiService: ApiService,
-    private _cookieService: CookieService
+    private _cookieService: CookieService,
+    private _headerStateService: HeaderStateService
   ) { }
 
   async ngOnInit() {
@@ -111,14 +110,12 @@ export class QuizzesComponent {
       .subscribe((response) => {
         if (response) {
           this.activeQuestion = response as QuizQuestionResponse;
-          this.questionCounter = `Question ${this.activeQuestion.finishedQuestionCount}/${this.activeQuestion.totalQuestionCount}`;
+          this._headerStateService.setTitle(`Question ${this.activeQuestion.finishedQuestionCount}/${this.activeQuestion.totalQuestionCount}`);
           if (this.activeQuestion.finishedQuestionCount === this.activeQuestion.totalQuestionCount) {
             this.buttonText = 'Finish';
             this.buttonFunction = this.finish;
           }
           this.setIsDisabled(true);
-          console.log(this.activeQuestion);
-
         } else {
           console.error('Failed to get question');
         }

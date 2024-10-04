@@ -8,10 +8,11 @@ import { QuizQuestionResponse } from "../../models/quiz-question-response.model"
 import { ActiveQAResult } from "../../models/active-qa-results.model";
 import { QuizOption } from "../../models/quiz-option.model";
 import { QuizResultsExpandedComponent } from "./quiz-results-expanded.compontent";
+import { HeaderStateService } from "../../services/states/headerstate.service";
 
 @Component({
     template: `
-        <app-header [title]="percent"></app-header>
+        <!-- <app-header [title]="percent"></app-header> -->
         <div class="container">
             <div 
                 *ngFor="let activeQA of results?.activeQAs"
@@ -41,7 +42,8 @@ export class QuizResultsComponent {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private _apiService: ApiService
+        private _apiService: ApiService,
+        private _headerStateService: HeaderStateService
     ) { }
 
     ngOnInit() {
@@ -49,6 +51,7 @@ export class QuizResultsComponent {
             .subscribe((response) => {
                 this.results = this.convertResponse(response);
                 this.calculatePercent();
+                this._headerStateService.setTitle(this.percent);
             });
     }
 
@@ -123,4 +126,5 @@ export class QuizResultsComponent {
         }
         this.percent = Math.ceil((correctCount / this.results.activeQAs.length) * 100).toString() + '%';
     }
+
 }

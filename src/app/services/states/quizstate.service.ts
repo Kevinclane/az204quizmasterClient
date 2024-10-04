@@ -73,4 +73,32 @@ export class QuizStateService {
             thirdParty: this._thirdParty
         }
     }
+
+    public getFormOptions(): {
+        display: string,
+        value: string
+    }[] {
+        return [
+            {
+                display: 'Develop Azure compute solutions',
+                value: 'compute'
+            },
+            {
+                display: 'Develop for Azure storage',
+                value: 'storage'
+            },
+            {
+                display: 'Implement Azure security',
+                value: 'security'
+            },
+            {
+                display: 'Monitor, troubleshoot, and optimize Azure solutions',
+                value: 'monitor'
+            },
+            {
+                display: 'Connect to and consume Azure services and third-party services',
+                value: 'thirdParty'
+            }
+        ]
+    }
 }

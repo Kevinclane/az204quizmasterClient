@@ -7,6 +7,8 @@
     color: $light-gray;
     font-size: 2.5rem;
     @extend .justify-between;
+    position: sticky;
+    top: 0;
 
     div {
         margin: 1rem;

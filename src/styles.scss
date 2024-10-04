@@ -37,18 +37,13 @@ $dark-blue: #232D3F;
 $dark-green: #005B41;
 $green: #008170;
 
-$green-correct: rgba(41, 168, 98, 0.5);
-$red-incorrect: #a62c2b;
+$green-correct: rgba(41, 168, 98, 0.35);
+$red-incorrect: rgba(166, 44, 43, 0.35);
 
 $light-gray: #f8f9fa;
 $gray: #6c757d;
 $dark-gray: #272727;
 $dark: #0F0F0F;
-
-body {
-    margin: 0;
-    background-color: $dark;
-}
 
 .justify-start {
     display: flex;
@@ -155,7 +150,9 @@ input:checked+.slider:before {
 
 html,
 body {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
     font-family: ui-monospace, "Helvetica Neue", sans-serif;
+    margin: 0;
+    background-color: $dark;
 }

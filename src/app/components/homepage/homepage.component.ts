@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { QuizStateService } from '../../services/states/quizstate.service';
-import { HeaderComponent } from "../../header/header.component";
 import { CookieService } from '../../services/cookie.service';
+import { HeaderStateService } from '../../services/states/headerstate.service';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   template: `
-    <app-header title="Welcome to the Quiz Master"></app-header>
     <div class="container">
         <div class="description">
           This application is designed to help you prepare for the AZ-204 exam.
@@ -24,39 +25,20 @@ import { CookieService } from '../../services/cookie.service';
               </ul>
           </div>
           <div class="quiz-selection">
-            <h2>Select sections to customize your quiz</h2>
-            <div class="justify-start">
-              <label class="switch">
-                <input type="checkbox" (change)="changeQuizSelection($event, 'compute')" [checked]="compute">
-                <span class="slider round"></span>
-              </label>
-              Develop Azure compute solutions
-            </div>
-            <div class="justify-start">
-              <label class="switch">
-                <input type="checkbox" (change)="changeQuizSelection($event, 'storage')" [checked]="storage">
-                <span class="slider round"></span>
-              </label>
-              Develop for Azure storage
-            </div>
-            <div class="justify-start">
-              <label class="switch">
-                <input type="checkbox" (change)="changeQuizSelection($event, 'security')" [checked]="security">
-                <span class="slider round"></span>
-              </label>
-              Implement Azure security
-            </div>
-            <div class="justify-start">
-              <label class="switch">
-                <input type="checkbox" (change)="changeQuizSelection($event, 'monitor')" [checked]="monitor">
-                <span class="slider round"></span>
-              </label>Monitor, troubleshoot, and optimize Azure solutions
-            </div>
-            <div class="justify-start">
-              <label class="switch">
-                <input type="checkbox" (change)="changeQuizSelection($event, 'thirdParty')" [checked]="thirdParty">
-                <span class="slider round"></span>
-              </label>Connect to and consume Azure services and third-party services
+            <h2>Customize your quiz</h2>
+            <div class="justify-start" *ngFor="let option of formOptions">
+              <label for="{{option.value}}" class="switch">
+                <input 
+                  type="checkbox" 
+                  id="{{option.value}}" 
+                  name="option" 
+                  value="{{option.value}}" 
+                  checked="true"
+                  (change)="changeQuizSelection($event)"
+                  >
+                  <span class="slider round"></span>
+                </label>
+                {{option.display}}
             </div>
             <div class="button-container">
               <button class="button-primary" [class.disabled]="disabled" [disabled]="disabled" (click)="startQuiz()">Start Quiz</button>
@@ -68,55 +50,48 @@ import { CookieService } from '../../services/cookie.service';
   selector: 'app-homepage',
   standalone: true,
   styleUrl: './homepage.component.scss',
-  imports: [RouterLink, HeaderComponent]
+  imports: [RouterLink, CommonModule]
 })
 export class HomepageComponent {
 
-  compute: boolean;
-  storage: boolean;
-  security: boolean;
-  monitor: boolean;
-  thirdParty: boolean;
-
   disabled: boolean = false;
 
+  formOptions: {
+    display: string,
+    value: string
+  }[] = [];
+
+  formGroup: FormGroup;
+
   constructor(
+    private router: Router,
     private _quizStateService: QuizStateService,
     private _cookieService: CookieService,
-    private router: Router
+    private _headerStateService: HeaderStateService
   ) {
-    this.compute = this._quizStateService.getCompute();
-    this.storage = this._quizStateService.getStorage();
-    this.security = this._quizStateService.getSecurity();
-    this.monitor = this._quizStateService.getMonitor();
-    this.thirdParty = this._quizStateService.getThirdParty();
+    this.formOptions = this._quizStateService.getFormOptions();
+    this.formGroup = new FormGroup({
+      choices: new FormArray(this.formOptions.map((o) => new FormControl(o.value)))
+    });
+    this._headerStateService.setTitle('Quiz Master');
   }
 
-  changeQuizSelection(event: any, quizType: string) {
-    switch (quizType) {
-      case 'compute':
-        this._quizStateService.setCompute(event.target.checked);
-        this.compute = this._quizStateService.getCompute();
-        break;
-      case 'storage':
-        this._quizStateService.setStorage(event.target.checked);
-        this.storage = this._quizStateService.getStorage();
-        break;
-      case 'security':
-        this._quizStateService.setSecurity(event.target.checked);
-        this.security = this._quizStateService.getSecurity();
-        break;
-      case 'monitor':
-        this._quizStateService.setMonitor(event.target.checked);
-        this.monitor = this._quizStateService.getMonitor();
-        break;
-      case 'thirdParty':
-        this._quizStateService.setThirdParty(event.target.checked);
-        this.thirdParty = this._quizStateService.getThirdParty();
-        break;
+  changeQuizSelection(event: any) {
+    const formArray = this.formGroup.get('choices') as FormArray;
+    if (event.target.checked) {
+      formArray.push(new FormControl(event.target.value));
+    } else {
+      let i = 0;
+      formArray.controls.forEach((item: any) => {
+        if (item.value == event.target.value) {
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
     }
 
-    if (!this.compute && !this.storage && !this.security && !this.monitor && !this.thirdParty) {
+    if (formArray.length == 0) {
       this.disabled = true;
     } else {
       this.disabled = false;
@@ -127,4 +102,5 @@ export class HomepageComponent {
     this._cookieService.deleteCookie('quizId');
     this.router.navigate(['/quizzes']);
   }
+
 }

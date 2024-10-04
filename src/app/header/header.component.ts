@@ -1,16 +1,17 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { UploadModalComponent } from '../components/modals/upload-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { HeaderStateService } from '../services/states/headerstate.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
   template: `
     <div class="header">
-      <div class="material-icons">home</div>
+      <div class="material-icons pointer" (click)="navigateHome()">home</div>
       <div class="title">{{title}}</div>
       <div>
         <div class="material-icons pointer" (click)="openUploadModal()">upload_file</div>
-        <div class="material-icons">account_circle</div>
       </div>
     </div>
   `,
@@ -20,16 +21,27 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  @Input({ required: true }) title!: string;
+  title: string = '';
 
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    private router: Router,
+    private _headerStateService: HeaderStateService
+  ) {
+    this._headerStateService.getTitle().subscribe((title) => {
+      this.title = title;
+    });
+  }
 
   openUploadModal() {
-    let dialogRef = this.dialog.open(UploadModalComponent, {
+    this.dialog.open(UploadModalComponent, {
       width: '40%',
       height: '40%'
-    })
-    console.log('Upload modal opened');
+    });
+  }
+
+  navigateHome() {
+    this.router.navigate(['/']);
   }
 
 }

@@ -39,7 +39,7 @@ export class MultipleChoiceMultipleDisplayComponent {
         if (event.target.checked) {
             formArray.push(new FormControl(event.target.value));
         } else {
-            let i: number = 0;
+            let i = 0;
             formArray.controls.forEach((item: any) => {
                 if (item.value == event.target.value) {
                     formArray.removeAt(i);
