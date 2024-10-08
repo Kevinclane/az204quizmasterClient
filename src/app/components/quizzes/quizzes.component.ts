@@ -9,10 +9,11 @@ import { AnswerSubmissionRequest } from '../../models/answer-submission-request.
 import { MultipleChoiceSingleDisplayComponent } from "./questionDisplays/multiple-choice-single-display.component";
 import { MultipleChoiceMultipleDisplayComponent } from "./questionDisplays/multiple-choice-multiple-display.component";
 import { HeaderStateService } from '../../services/states/headerstate.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   template: `
-    <div class="container">
+    <div *ngIf="!loading; else spinner" class="container">
       <div class="question-container" *ngIf="activeQuestion">
         <app-multiple-choice-single-display
           *ngIf="activeQuestion.questionType === 0"
@@ -34,13 +35,21 @@ import { HeaderStateService } from '../../services/states/headerstate.service';
           [disabled]="isDisabled"
           [class.disabled]="isDisabled"
           >{{buttonText}}</button>
+        </div>
       </div>
     </div>
+    <ng-template #spinner>
+      <div class="spinner-container">
+        <mat-spinner
+          diameter="50"
+        ></mat-spinner>
+      </div>
+    </ng-template>
   `,
   selector: 'app-quizzes',
   standalone: true,
   styleUrl: './quizzes.component.scss',
-  imports: [CommonModule, MultipleChoiceSingleDisplayComponent, MultipleChoiceMultipleDisplayComponent]
+  imports: [CommonModule, MultipleChoiceSingleDisplayComponent, MultipleChoiceMultipleDisplayComponent, MatProgressSpinnerModule]
 })
 export class QuizzesComponent {
   quizId!: number;
@@ -49,6 +58,7 @@ export class QuizzesComponent {
   buttonText: string = 'Next';
   buttonFunction: Function = this.submitAndGetNextQuestion;
   isDisabled: boolean = true;
+  loading: boolean = true;
 
   @ViewChild('multipleChoiceSingleDisplay') multipleChoiceSingleDisplay!: MultipleChoiceSingleDisplayComponent;
   @ViewChild('multipleChoiceMultipleDisplay') multipleChoiceMultipleDisplay!: MultipleChoiceMultipleDisplayComponent;
@@ -115,6 +125,7 @@ export class QuizzesComponent {
             this.buttonText = 'Finish';
             this.buttonFunction = this.finish;
           }
+          this.loading = false;
           this.setIsDisabled(true);
         } else {
           console.error('Failed to get question');
@@ -129,7 +140,6 @@ export class QuizzesComponent {
       .subscribe(() => {
         this.router.navigate(['/results', this.quizId]);
       });
-
   }
 
   setIsDisabled(event: boolean) {

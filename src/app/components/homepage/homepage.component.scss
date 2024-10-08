@@ -18,12 +18,11 @@
         }
 
         * {
-            margin-left: 5dvw;
+            margin-left: 10rem;
         }
     }
 
     .quiz-selection {
-        // padding-left: 50%;
         width: 100%;
         height: 46dvh;
         background-color: $dark-gray;
@@ -32,28 +31,32 @@
         justify-content: center;
         align-items: end;
 
+        .sub-container {
+            margin-right: 10rem;
 
-        h2 {
-            padding-left: .5rem;
-        }
+            h2 {
+                padding-left: .5rem;
+            }
 
-        div {
-            padding: .5rem;
-        }
-
-        .button-container {
-            margin-top: 1rem;
-
-            a {
-                cursor: pointer;
-                color: $light-gray;
-                text-decoration: none;
-                background-color: $green;
+            .list-item {
                 padding: .5rem;
-                border-radius: 5px;
-                font-size: 1.5rem;
+            }
+
+            .button-container {
+                margin-top: 1rem;
+
+                a {
+                    cursor: pointer;
+                    color: $light-gray;
+                    text-decoration: none;
+                    background-color: $green;
+                    padding: .5rem;
+                    border-radius: 5px;
+                    font-size: 1.5rem;
+                }
             }
         }
+
     }
 
     .resources {
@@ -66,11 +69,11 @@
         width: 100%;
 
         h2 {
-            margin: .5rem 5dvw;
+            margin: .5rem 10rem;
         }
 
         ul {
-            margin: 0 5dvw;
+            margin: 0 10rem;
         }
 
         li {

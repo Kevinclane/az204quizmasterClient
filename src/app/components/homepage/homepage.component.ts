@@ -20,9 +20,9 @@ import { CommonModule } from '@angular/common';
             </ul>
           </div>
           <div class="quiz-selection">
-            <div>
+            <div class="sub-container">
               <h2>Customize your quiz</h2>
-              <div class="justify-start" *ngFor="let option of formOptions">
+              <div class="justify-start list-item" *ngFor="let option of formOptions">
                 <label for="{{option.value}}" class="switch">
                   <input 
                     type="checkbox" 
