@@ -27,7 +27,6 @@
 
             .symbol {
                 width: 2rem;
-                @extend .justify-center;
             }
         }
 
@@ -35,6 +34,13 @@
             width: 100%;
         }
 
+    }
+
+    button {
+        position: fixed;
+        bottom: 0 + 1.0rem;
+        right: 0 + 1.0rem;
+        @extend .button-primary;
     }
 
     .correct {

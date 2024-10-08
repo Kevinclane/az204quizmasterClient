@@ -12,7 +12,6 @@ import { HeaderStateService } from "../../services/states/headerstate.service";
 
 @Component({
     template: `
-        <!-- <app-header [title]="percent"></app-header> -->
         <div class="container">
             <div 
                 *ngFor="let activeQA of results?.activeQAs"
@@ -27,6 +26,7 @@ import { HeaderStateService } from "../../services/states/headerstate.service";
                     </div>
                     <app-quiz-results-expanded [activeQA]="activeQA" />
             </div>
+            <button (click)="navigateHome()">New Quiz</button>
         </div>
     `,
     selector: 'app-quiz-results',
@@ -56,7 +56,7 @@ export class QuizResultsComponent {
     }
 
     //This method is a tempory work-around. 
-    //The nested objects' fields are not being converted from Pascal case to camel case by the HttpClient
+    //The nested objects' fields are not being converted from Pascal case to camel case automatically.
     convertResponse(apiResponse: any): QuizResults {
         let results: QuizResults = {
             id: apiResponse.Id,
@@ -125,6 +125,10 @@ export class QuizResultsComponent {
             }
         }
         this.percent = Math.ceil((correctCount / this.results.activeQAs.length) * 100).toString() + '%';
+    }
+
+    navigateHome() {
+        this.router.navigate(['/']);
     }
 
 }

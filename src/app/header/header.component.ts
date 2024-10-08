@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UploadModalComponent } from '../components/modals/upload-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderStateService } from '../services/states/headerstate.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({

@@ -2,53 +2,83 @@
 
 .container {
     color: $light-gray;
-    padding: 0 5dvw;
-    min-height: 50dvh;
+    min-height: 92dvh;
     @extend .justify-center;
     flex-direction: column;
 
-    .description {
-        font-size: 1.5rem;
-        margin-top: 3dvh;
-    }
-
-    .split-container {
-        @extend .justify-between;
+    .exam-breakdown {
         width: 100%;
-        margin-top: 3rem;
+        height: 46dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-        .exam-breakdown {
-            width: 50%;
-
-            ul li {
-                margin: .5rem 0;
-            }
+        ul li {
+            margin: .5rem 0;
         }
 
-        .quiz-selection {
-            width: 50%;
+        * {
+            margin-left: 5dvw;
+        }
+    }
 
-            h2 {
-                padding-left: .5rem;
-            }
+    .quiz-selection {
+        // padding-left: 50%;
+        width: 100%;
+        height: 46dvh;
+        background-color: $dark-gray;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: end;
 
-            div {
+
+        h2 {
+            padding-left: .5rem;
+        }
+
+        div {
+            padding: .5rem;
+        }
+
+        .button-container {
+            margin-top: 1rem;
+
+            a {
+                cursor: pointer;
+                color: $light-gray;
+                text-decoration: none;
+                background-color: $green;
                 padding: .5rem;
+                border-radius: 5px;
+                font-size: 1.5rem;
             }
         }
     }
 
-    .button-container {
-        margin-top: 1rem;
+    .resources {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        margin-top: 2rem;
+        min-height: 30dvh;
+        width: 100%;
+
+        h2 {
+            margin: .5rem 5dvw;
+        }
+
+        ul {
+            margin: 0 5dvw;
+        }
+
+        li {
+            margin: .5rem 0;
+        }
 
         a {
-            cursor: pointer;
             color: $light-gray;
-            text-decoration: none;
-            background-color: $green;
-            padding: .5rem;
-            border-radius: 5px;
-            font-size: 1.5rem;
         }
     }
 
