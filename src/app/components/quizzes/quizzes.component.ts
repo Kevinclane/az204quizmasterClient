@@ -60,6 +60,7 @@ export class QuizzesComponent {
   isDisabled: boolean = true;
   loading: boolean = true;
 
+
   @ViewChild('multipleChoiceSingleDisplay') multipleChoiceSingleDisplay!: MultipleChoiceSingleDisplayComponent;
   @ViewChild('multipleChoiceMultipleDisplay') multipleChoiceMultipleDisplay!: MultipleChoiceMultipleDisplayComponent;
 
@@ -77,6 +78,7 @@ export class QuizzesComponent {
 
   private syncQuizCookie() {
     let quizId = this._cookieService.getCookie('quizId');
+
     if (!quizId) {
       this._apiService.post('/quiz/create', this._quizStateService.getAsRequest())
         .subscribe((response) => {
@@ -105,6 +107,7 @@ export class QuizzesComponent {
         answers = this.multipleChoiceMultipleDisplay.getAnswers();
         break;
     }
+    console.log("generate answers");
 
     return {
       quizId: this.quizId,
@@ -127,6 +130,7 @@ export class QuizzesComponent {
           }
           this.loading = false;
           this.setIsDisabled(true);
+
         } else {
           console.error('Failed to get question');
         }
