@@ -8,15 +8,15 @@ import { Observable, Subject } from "rxjs";
 
 export class HeaderStateService {
 
-    private _title: Subject<string> = new Subject<string>();
+    private _title$: Subject<string> = new Subject<string>();
 
     constructor() { }
 
     public getTitle() {
-        return this._title;
+        return this._title$;
     }
 
     public setTitle(value: string) {
-        this._title.next(value);
+        this._title$.next(value);
     }
 }

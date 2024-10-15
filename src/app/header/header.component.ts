@@ -8,10 +8,10 @@ import { Router } from '@angular/router';
 @Component({
   template: `
     <div class="header">
-      <div class="material-icons pointer" (click)="navigateHome()">home</div>
+      <div class="material-icons pointer" (click)="navigateHome()" id="home">home</div>
       <div class="title">{{title}}</div>
       <div>
-        <div class="material-icons pointer" (click)="openUploadModal()">upload_file</div>
+        <div class="material-icons pointer" (click)="openUploadModal()" id="upload-file">upload_file</div>
       </div>
     </div>
   `,
@@ -34,6 +34,8 @@ export class HeaderComponent {
   }
 
   openUploadModal() {
+    console.log('openUploadModal');
+
     this.dialog.open(UploadModalComponent, {
       width: '40%',
       height: '40%'
