@@ -85,6 +85,7 @@ export class HomepageComponent {
     const formArray = this.formGroup.get('choices') as FormArray;
     if (event.target.checked) {
       formArray.push(new FormControl(event.target.value));
+      console.log('adding ' + event.target.value);
     } else {
       let i = 0;
       formArray.controls.forEach((item: any) => {

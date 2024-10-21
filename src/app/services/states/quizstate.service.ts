@@ -24,44 +24,12 @@ export class QuizStateService {
         this._quizId = value;
     }
 
-    public getCompute() {
-        return this._compute;
-    }
-
-    public setCompute(value: boolean) {
-        this._compute = value;
-    }
-
-    public getStorage() {
-        return this._storage;
-    }
-
-    public setStorage(value: boolean) {
-        this._storage = value;
-    }
-
-    public getSecurity() {
-        return this._security;
-    }
-
-    public setSecurity(value: boolean) {
-        this._security = value;
-    }
-
-    public getMonitor() {
-        return this._monitor;
-    }
-
-    public setMonitor(value: boolean) {
-        this._monitor = value;
-    }
-
-    public getThirdParty() {
-        return this._thirdParty;
-    }
-
-    public setThirdParty(value: boolean) {
-        this._thirdParty = value;
+    public setValues(QuizRequest: QuizRequest) {
+        this._compute = QuizRequest.compute;
+        this._storage = QuizRequest.storage;
+        this._security = QuizRequest.security;
+        this._monitor = QuizRequest.monitor;
+        this._thirdParty = QuizRequest.thirdParty;
     }
 
     public getAsRequest(): QuizRequest {

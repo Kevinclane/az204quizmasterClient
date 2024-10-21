@@ -4,7 +4,7 @@ import { HeaderStateService } from "../services/states/headerstate.service";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MockService } from "ng-mocks";
 import { MatDialog } from "@angular/material/dialog";
-import { of, Subject } from "rxjs";
+import { Subject } from "rxjs";
 import { By } from "@angular/platform-browser";
 
 describe('HeaderComponent', () => {
