@@ -30,7 +30,7 @@ import { CommonModule } from "@angular/common";
 })
 
 export class QuizResultsExpandedComponent {
-    @Input() activeQA!: ActiveQAResult;
+    @Input() activeQA: ActiveQAResult;
     expanded: boolean = false;
     expandedOptions: {
         id: number,
@@ -48,11 +48,37 @@ export class QuizResultsExpandedComponent {
         displayColor: string
     }[] = [];
 
+    constructor() {
+        this.activeQA = {
+            id: 0,
+            qaId: 0,
+            quizId: 0,
+            qa: {
+                quizId: 0,
+                qaId: 0,
+                aqAid: 0,
+                totalQuestionCount: 0,
+                finishedQuestionCount: 0,
+                question: "",
+                image: "",
+                questionType: 0,
+                category: 0,
+                options: [],
+                links: []
+            },
+            submittedAnswers: []
+        }
+    }
+
     toggleExpand() {
         this.expanded = !this.expanded;
     }
 
     ngOnInit() {
+        this.setCollapsedOptions();
+    }
+
+    setCollapsedOptions() {
         for (let i = 0; i < this.activeQA.qa.options.length; i++) {
             const option = {
                 id: this.activeQA.qa.options[i].id,
@@ -76,4 +102,5 @@ export class QuizResultsExpandedComponent {
             this.expandedOptions.push(option);
         }
     }
+
 }

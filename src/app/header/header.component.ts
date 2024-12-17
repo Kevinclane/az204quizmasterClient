@@ -3,6 +3,8 @@ import { UploadModalComponent } from '../components/modals/upload-modal.componen
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderStateService } from '../services/states/headerstate.service';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -10,18 +12,19 @@ import { Router } from '@angular/router';
     <div class="header">
       <div class="material-icons pointer" (click)="navigateHome()" id="home">home</div>
       <div class="title">{{title}}</div>
-      <div>
+      <div *ngIf="isDevMode">
         <div class="material-icons pointer" (click)="openUploadModal()" id="upload-file">upload_file</div>
       </div>
     </div>
   `,
   selector: 'app-header',
   standalone: true,
-  imports: [UploadModalComponent],
+  imports: [UploadModalComponent, CommonModule],
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   title: string = '';
+  isDevMode: boolean = !environment.production;
 
   constructor(
     public dialog: MatDialog,
@@ -34,7 +37,8 @@ export class HeaderComponent {
   }
 
   openUploadModal() {
-    console.log('openUploadModal');
+
+    //!TODO Need to gate this behind development mode only
 
     this.dialog.open(UploadModalComponent, {
       width: '40%',

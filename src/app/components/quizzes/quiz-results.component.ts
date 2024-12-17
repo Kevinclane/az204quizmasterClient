@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { ApiService } from "../../services/api.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { HeaderComponent } from "../../header/header.component";
 import { QuizResults } from "../../models/quiz-results.model";
 import { CommonModule } from "@angular/common";
 import { QuizQuestionResponse } from "../../models/quiz-question-response.model";
@@ -32,7 +31,7 @@ import { HeaderStateService } from "../../services/states/headerstate.service";
     selector: 'app-quiz-results',
     standalone: true,
     styleUrl: './quiz-results.component.scss',
-    imports: [HeaderComponent, CommonModule, QuizResultsExpandedComponent]
+    imports: [CommonModule, QuizResultsExpandedComponent]
 })
 
 export class QuizResultsComponent {

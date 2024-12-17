@@ -1,24 +1,12 @@
 import { HomepageComponent } from './homepage.component';
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { MockService } from "ng-mocks";
-import { QuizStateService } from '../../services/states/quizstate.service';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormArray } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 describe('HomepageComponent', () => {
   let fixture: ComponentFixture<HomepageComponent>;
-  // const mockQuizStateService = MockService(QuizStateService);
 
   beforeEach(() => {
-    // TestBed.overrideComponent(HomepageComponent, {
-    //   add: {
-    //     providers: [
-    //       { provide: QuizStateService, useValue: mockQuizStateService }
-    //     ]
-    //   },
-    //   remove: { providers: [QuizStateService] }
-    // });
-
     fixture = TestBed.createComponent(HomepageComponent);
     fixture.autoDetectChanges();
     fixture.detectChanges();

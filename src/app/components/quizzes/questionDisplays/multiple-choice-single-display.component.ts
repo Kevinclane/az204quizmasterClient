@@ -8,7 +8,7 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
         <div class="question" [innerHTML]="activeQuestion.question"></div>
         <img *ngIf="activeQuestion.image" src={{activeQuestion.image}} alt="error loading image">
         <div class="options">
-            <div class="option" *ngFor="let option of activeQuestion?.options">
+            <div class="option" *ngFor="let option of activeQuestion.options">
                 <input 
                 type="radio"
                 id="{{option.id}}"
@@ -28,9 +28,25 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 })
 
 export class MultipleChoiceSingleDisplayComponent {
-    @Input() activeQuestion!: QuizQuestionResponse;
+    @Input() activeQuestion: QuizQuestionResponse;
     @Output() emitIsDisabled = new EventEmitter<boolean>();
     selectedOption = new FormControl<number>(0);
+
+    constructor() {
+        this.activeQuestion = {
+            quizId: 0,
+            qaId: 0,
+            aqAid: 0,
+            totalQuestionCount: 0,
+            finishedQuestionCount: 0,
+            question: '',
+            image: '',
+            questionType: 0,
+            category: 0,
+            options: [],
+            links: []
+        }
+    }
 
     getAnswers() {
         return this.selectedOption.value ? [this.selectedOption.value] : [];

@@ -8,7 +8,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
         <div class="question" [innerHTML]="activeQuestion.question"></div>
         <img *ngIf="activeQuestion.image" src={{activeQuestion.image}} alt="error loading image">
         <div class="options">
-            <div class="option" *ngFor="let option of activeQuestion?.options">
+            <div class="option" *ngFor="let option of activeQuestion.options">
                 <input 
                 type="checkbox" 
                 id="{{option.id}}" 
@@ -27,12 +27,28 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular
 })
 
 export class MultipleChoiceMultipleDisplayComponent {
-    @Input() activeQuestion!: QuizQuestionResponse;
+    @Input() activeQuestion: QuizQuestionResponse;
     @Output() emitIsDisabled = new EventEmitter<boolean>();
 
     formGroup = new FormGroup({
         choices: new FormArray([])
     });
+
+    constructor() {
+        this.activeQuestion = {
+            quizId: 0,
+            qaId: 0,
+            aqAid: 0,
+            totalQuestionCount: 0,
+            finishedQuestionCount: 0,
+            question: '',
+            image: '',
+            questionType: 0,
+            category: 0,
+            options: [],
+            links: []
+        }
+    }
 
     onCheckChange(event: any) {
         const formArray = this.formGroup.get('choices') as FormArray;

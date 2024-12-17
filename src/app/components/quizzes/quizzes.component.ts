@@ -107,7 +107,6 @@ export class QuizzesComponent {
         answers = this.multipleChoiceMultipleDisplay.getAnswers();
         break;
     }
-    console.log("generate answers");
 
     return {
       quizId: this.quizId,
@@ -124,7 +123,7 @@ export class QuizzesComponent {
         if (response) {
           this.activeQuestion = response as QuizQuestionResponse;
           this._headerStateService.setTitle(`Question ${this.activeQuestion.finishedQuestionCount}/${this.activeQuestion.totalQuestionCount}`);
-          if (this.activeQuestion.finishedQuestionCount === this.activeQuestion.totalQuestionCount) {
+          if (this.activeQuestion.finishedQuestionCount === this.activeQuestion.totalQuestionCount - 1) {
             this.buttonText = 'Finish';
             this.buttonFunction = this.finish;
           }

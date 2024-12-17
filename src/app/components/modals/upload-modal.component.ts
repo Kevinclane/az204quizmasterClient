@@ -1,5 +1,5 @@
-import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component } from "@angular/core";
+import { MatDialogRef } from "@angular/material/dialog";
 import { ApiService } from "../../services/api.service";
 
 @Component({
@@ -7,7 +7,7 @@ import { ApiService } from "../../services/api.service";
         <div class="container">
             <h3>Select JSON file to upload</h3>
             <input type="file" name="file" id="file" (change)="setFile($event)">
-            <button class="button-primary" (click)="upload()">Upload</button>
+            <button class="button-primary" (click)="upload()" [disabled]="apiBody == ''">Upload</button>
         </div>
     `,
     selector: 'app-upload-modal',
@@ -21,7 +21,6 @@ export class UploadModalComponent {
 
     constructor(
         public dialogRef: MatDialogRef<UploadModalComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
         private _apiService: ApiService
     ) { }
 
@@ -30,9 +29,6 @@ export class UploadModalComponent {
             .then((text: string) => {
                 this.apiBody = JSON.parse(text);
             });
-
-        console.log(event);
-        console.log('File selected');
     }
 
     upload() {

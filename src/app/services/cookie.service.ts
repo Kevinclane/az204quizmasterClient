@@ -22,9 +22,9 @@ export class CookieService {
         return "";
     }
 
-    public setCookie(cname: string, cvalue: string, exdays: number) {
+    public setCookie(cname: string, cvalue: string, expdays: number) {
         const d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        d.setTime(d.getTime() + (expdays * 24 * 60 * 60 * 1000));
         let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }

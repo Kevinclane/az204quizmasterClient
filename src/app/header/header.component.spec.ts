@@ -50,16 +50,27 @@ describe('HeaderComponent', () => {
         expect(title.nativeElement.textContent).toBe('Test Title');
     });
 
-    it('should open the upload modal when the upload icon is clicked', () => {
-        const uploadIcon = fixture.debugElement.query(By.css('#upload-file'));
-        uploadIcon.triggerEventHandler('click', null);
-        expect(matDialogSpy).toHaveBeenCalled();
-    });
-
     it('should navigate to the home page when the home icon is clicked', () => {
         const homeIcon = fixture.debugElement.query(By.css('#home'));
         homeIcon.triggerEventHandler('click', null);
         expect(routerSpy).toHaveBeenCalledWith(['/']);
+    });
+
+    describe('upload icon', () => {
+        it('should open the upload modal when the upload icon is clicked if in dev mode', () => {
+            fixture.componentInstance.isDevMode = true;
+            fixture.detectChanges();
+            const uploadIcon = fixture.debugElement.query(By.css('#upload-file'));
+            uploadIcon.triggerEventHandler('click', null);
+            expect(matDialogSpy).toHaveBeenCalled();
+        });
+
+        it('should not display if not in dev mode', () => {
+            fixture.componentInstance.isDevMode = false;
+            fixture.detectChanges();
+            const uploadIcon = fixture.debugElement.query(By.css('#upload-file'));
+            expect(uploadIcon).toBeFalsy();
+        });
     });
 
 });
