@@ -65,10 +65,8 @@ export class MultipleChoiceMultipleDisplayComponent {
             });
         }
         if (formArray.length == 0) {
-            console.log('emiiting true');
             this.emitIsDisabled.emit(true);
         } else {
-            console.log('emiiting false');
             this.emitIsDisabled.emit(false);
         }
     }

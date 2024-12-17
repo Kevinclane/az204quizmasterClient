@@ -10,7 +10,6 @@ import { Observable, catchError, throwError } from "rxjs";
 export class ApiService {
 
     constructor(private _http: HttpClient) {
-        console.log('production', environment.production)
     }
 
     private handleError(error: HttpErrorResponse) {

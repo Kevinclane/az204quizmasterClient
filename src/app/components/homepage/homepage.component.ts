@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { QuizStateService } from '../../services/states/quizstate.service';
 import { CookieService } from '../../services/cookie.service';
 import { HeaderStateService } from '../../services/states/headerstate.service';
@@ -55,7 +55,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-homepage',
   standalone: true,
   styleUrl: './homepage.component.scss',
-  imports: [RouterLink, CommonModule]
+  imports: [CommonModule]
 })
 export class HomepageComponent {
 
@@ -85,7 +85,6 @@ export class HomepageComponent {
     const formArray = this.formGroup.get('choices') as FormArray;
     if (event.target.checked) {
       formArray.push(new FormControl(event.target.value));
-      console.log('adding ' + event.target.value);
     } else {
       let i = 0;
       formArray.controls.forEach((item: any) => {
@@ -105,6 +104,13 @@ export class HomepageComponent {
   }
 
   startQuiz() {
+    this._quizStateService.setValues({
+      compute: this.formGroup.value.choices.includes('compute'),
+      storage: this.formGroup.value.choices.includes('storage'),
+      security: this.formGroup.value.choices.includes('security'),
+      monitor: this.formGroup.value.choices.includes('monitor'),
+      thirdParty: this.formGroup.value.choices.includes('thirdParty')
+    });
     this._cookieService.deleteCookie('quizId');
     this.router.navigate(['/quizzes']);
   }
