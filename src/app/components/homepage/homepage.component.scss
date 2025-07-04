@@ -38,8 +38,14 @@
                 padding-left: .5rem;
             }
 
+            
             .list-item {
                 padding: .5rem;
+
+                .question-input {
+                    max-width: 2.5rem;
+                    margin-left: 1rem;
+                }
             }
 
             .button-container {
