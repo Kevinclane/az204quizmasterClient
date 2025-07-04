@@ -13,6 +13,7 @@ export class QuizStateService {
     private _security: boolean = true;
     private _monitor: boolean = true;
     private _thirdParty: boolean = true;
+    private _questionCount: number = 0;
 
     constructor() { }
 
@@ -24,12 +25,13 @@ export class QuizStateService {
         this._quizId = value;
     }
 
-    public setValues(QuizRequest: QuizRequest) {
-        this._compute = QuizRequest.compute;
-        this._storage = QuizRequest.storage;
-        this._security = QuizRequest.security;
-        this._monitor = QuizRequest.monitor;
-        this._thirdParty = QuizRequest.thirdParty;
+    public setValues(quizRequest: QuizRequest) {
+        this._compute = quizRequest.compute;
+        this._storage = quizRequest.storage;
+        this._security = quizRequest.security;
+        this._monitor = quizRequest.monitor;
+        this._thirdParty = quizRequest.thirdParty;
+        this._questionCount = quizRequest.questionCount
     }
 
     public getAsRequest(): QuizRequest {
@@ -38,7 +40,8 @@ export class QuizStateService {
             storage: this._storage,
             security: this._security,
             monitor: this._monitor,
-            thirdParty: this._thirdParty
+            thirdParty: this._thirdParty,
+            questionCount: this._questionCount
         }
     }
 

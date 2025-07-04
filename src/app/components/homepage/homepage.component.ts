@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { QuizStateService } from '../../services/states/quizstate.service';
 import { CookieService } from '../../services/cookie.service';
 import { HeaderStateService } from '../../services/states/headerstate.service';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -22,6 +22,10 @@ import { CommonModule } from '@angular/common';
           <div class="quiz-selection">
             <div class="sub-container">
               <h2>Customize your quiz</h2>
+              <div class="justify-start list-item">
+                <label for="question-count">Question Count: </label>
+                <input class="question-input" type="number" name="question-count" id="question-count" [formControl]="questionCount">
+              </div>
               <div class="justify-start list-item" *ngFor="let option of formOptions">
                 <label for="{{option.value}}" class="switch">
                   <input 
@@ -55,7 +59,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-homepage',
   standalone: true,
   styleUrl: './homepage.component.scss',
-  imports: [CommonModule]
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class HomepageComponent {
 
@@ -65,6 +69,7 @@ export class HomepageComponent {
     display: string,
     value: string
   }[] = [];
+  questionCount = new FormControl(20);
 
   formGroup: FormGroup;
 
@@ -76,7 +81,8 @@ export class HomepageComponent {
   ) {
     this.formOptions = this._quizStateService.getFormOptions();
     this.formGroup = new FormGroup({
-      choices: new FormArray(this.formOptions.map((o) => new FormControl(o.value)))
+      choices: new FormArray(this.formOptions.map((o) => new FormControl(o.value))),
+      questionCount: this.questionCount
     });
     this._headerStateService.setTitle('Quiz Master');
   }
@@ -103,13 +109,22 @@ export class HomepageComponent {
     }
   }
 
+  validateCount() {
+    if (this.questionCount.value == null) {
+      return -1;
+    }
+    return this.questionCount.value <= 0 ? -1 : this.questionCount.value; 
+  }
+
   startQuiz() {
+
     this._quizStateService.setValues({
       compute: this.formGroup.value.choices.includes('compute'),
       storage: this.formGroup.value.choices.includes('storage'),
       security: this.formGroup.value.choices.includes('security'),
       monitor: this.formGroup.value.choices.includes('monitor'),
-      thirdParty: this.formGroup.value.choices.includes('thirdParty')
+      thirdParty: this.formGroup.value.choices.includes('thirdParty'),
+      questionCount: this.validateCount()
     });
     this._cookieService.deleteCookie('quizId');
     this.router.navigate(['/quizzes']);

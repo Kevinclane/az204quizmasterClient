@@ -3,5 +3,6 @@ export interface QuizRequest {
     storage: boolean,
     security: boolean,
     monitor: boolean,
-    thirdParty: boolean
+    thirdParty: boolean,
+    questionCount: number
 }

@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
   `,
   selector: 'app-header',
   standalone: true,
-  imports: [UploadModalComponent, CommonModule],
+  imports: [CommonModule],
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
